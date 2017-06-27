@@ -1,11 +1,16 @@
 package com.scmspain.services;
 
 import com.scmspain.entities.Tweet;
+import com.scmspain.validators.TweetMessageValidator;
+import com.scmspain.validators.TweetPublisherValidator;
+import com.scmspain.validators.TweetValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.actuate.metrics.writer.MetricWriter;
 
 import javax.persistence.EntityManager;
+
+import java.util.Arrays;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -15,13 +20,16 @@ public class TweetServiceTest {
     private EntityManager entityManager;
     private MetricWriter metricWriter;
     private TweetService tweetService;
+    private TweetValidator tweetValidator;
 
     @Before
     public void setUp() throws Exception {
         this.entityManager = mock(EntityManager.class);
         this.metricWriter = mock(MetricWriter.class);
+        this.tweetValidator = new TweetValidator(Arrays.asList(new TweetPublisherValidator(), new TweetMessageValidator()));
 
-        this.tweetService = new TweetService(entityManager, metricWriter);
+
+        this.tweetService = new TweetService(entityManager, metricWriter, tweetValidator);
     }
 
     @Test
