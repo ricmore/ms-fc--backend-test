@@ -32,6 +32,16 @@ public class TweetServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowAnExceptionWhenTweetIsNull() throws Exception {
+        tweetService.publishTweet("Pirate", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowAnExceptionWhenTweetIsEmpty() throws Exception {
+        tweetService.publishTweet("Pirate", "");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowAnExceptionWhenTweetLengthIsInvalid() throws Exception {
         tweetService.publishTweet("Pirate", "LeChuck? He's the guy that went to the Governor's for dinner and never wanted to leave. He fell for her in a big way, but she told him to drop dead. So he did. Then things really got ugly.");
     }
