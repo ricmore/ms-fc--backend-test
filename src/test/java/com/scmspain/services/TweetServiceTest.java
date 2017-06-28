@@ -1,6 +1,7 @@
 package com.scmspain.services;
 
 import com.scmspain.entities.Tweet;
+import com.scmspain.repository.EMTweetRepository;
 import com.scmspain.validators.TweetMessageValidator;
 import com.scmspain.validators.TweetPublisherValidator;
 import com.scmspain.validators.TweetValidator;
@@ -29,7 +30,7 @@ public class TweetServiceTest {
         this.tweetValidator = new TweetValidator(Arrays.asList(new TweetPublisherValidator(), new TweetMessageValidator()));
 
 
-        this.tweetService = new TweetService(entityManager, metricWriter, tweetValidator);
+        this.tweetService = new TweetService(new EMTweetRepository(entityManager), metricWriter, tweetValidator);
     }
 
     @Test
