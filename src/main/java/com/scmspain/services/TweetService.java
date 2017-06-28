@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @Transactional
 public class TweetService {
-    private TweetRepository repository;
+    private TweetRepository<Tweet, Long> repository;
     private MetricWriter metricWriter;
     private Validator<Tweet> validator;
 
@@ -46,7 +46,7 @@ public class TweetService {
       Result - retrieved Tweet
     */
     public Tweet getTweet(Long id) {
-      return this.repository.get(id);
+        return this.repository.get(id);
     }
 
     /**

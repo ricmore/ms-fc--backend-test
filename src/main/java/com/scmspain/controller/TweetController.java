@@ -1,7 +1,9 @@
 package com.scmspain.controller;
 
+import com.scmspain.controller.command.DiscardTweetCommand;
 import com.scmspain.controller.command.PublishTweetCommand;
 import com.scmspain.entities.Tweet;
+import com.scmspain.services.DiscardTweetService;
 import com.scmspain.services.TweetService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +15,11 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 public class TweetController {
     private TweetService tweetService;
+    private DiscardTweetService discardTweetService;
 
-    public TweetController(TweetService tweetService) {
+    public TweetController(TweetService tweetService, DiscardTweetService discardTweetService) {
         this.tweetService = tweetService;
+        this.discardTweetService = discardTweetService;
     }
 
     @GetMapping("/tweet")
@@ -27,6 +31,12 @@ public class TweetController {
     @ResponseStatus(CREATED)
     public void publishTweet(@RequestBody PublishTweetCommand publishTweetCommand) {
         this.tweetService.publishTweet(publishTweetCommand.getPublisher(), publishTweetCommand.getTweet());
+    }
+
+    @PostMapping("/discarded")
+    @ResponseStatus(CREATED)
+    public void discardTweet(@RequestBody DiscardTweetCommand discardTweetCommand ) {
+        this.discardTweetService.discardTweet(discardTweetCommand.getId());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

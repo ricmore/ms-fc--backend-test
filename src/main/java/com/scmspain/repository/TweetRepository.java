@@ -1,11 +1,11 @@
 package com.scmspain.repository;
 
-import com.scmspain.entities.Tweet;
-
 import java.util.List;
 
-public interface TweetRepository {
-  public void create(Tweet tweet);
-  public Tweet get(Long id);
-  public List<Tweet> getAll();
+public interface TweetRepository<T, U> {
+  public void create(T tweet);
+  public void delete(T tweet);
+
+  public T get(U id);
+  public List<T> getAll();
 }

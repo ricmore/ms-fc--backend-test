@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EMTweetRepository implements TweetRepository {
+public class EMTweetRepository implements TweetRepository<Tweet, Long> {
   private EntityManager entityManager;
 
   public EMTweetRepository(EntityManager entityManager) {
@@ -17,6 +17,11 @@ public class EMTweetRepository implements TweetRepository {
   @Override
   public void create(Tweet tweet) {
     this.entityManager.persist(tweet);
+  }
+
+  @Override
+  public void delete(Tweet tweet) {
+    this.entityManager.remove(tweet);
   }
 
   @Override

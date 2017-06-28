@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.springframework.boot.actuate.metrics.writer.MetricWriter;
 
 import javax.persistence.EntityManager;
-
 import java.util.Arrays;
 
 import static org.mockito.Matchers.any;
