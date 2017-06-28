@@ -39,6 +39,11 @@ public class TweetServiceTest {
         verify(entityManager).persist(any(Tweet.class));
     }
 
+    @Test
+    public void shouldInsertANewTweetWithouthCountingLinkLength() throws Exception {
+        tweetService.publishTweet("Classy Dude", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat http://foogle.co");
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowAnExceptionWhenTweetIsNull() throws Exception {
         tweetService.publishTweet("Pirate", null);
