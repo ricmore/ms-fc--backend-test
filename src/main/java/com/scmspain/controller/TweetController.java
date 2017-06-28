@@ -2,8 +2,10 @@ package com.scmspain.controller;
 
 import com.scmspain.controller.command.DiscardTweetCommand;
 import com.scmspain.controller.command.PublishTweetCommand;
+import com.scmspain.entities.DiscardedTweet;
 import com.scmspain.entities.Tweet;
 import com.scmspain.services.DiscardTweetService;
+import com.scmspain.services.DiscardedTweetService;
 import com.scmspain.services.TweetService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +18,12 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class TweetController {
     private TweetService tweetService;
     private DiscardTweetService discardTweetService;
+    private DiscardedTweetService discardedTweetService;
 
-    public TweetController(TweetService tweetService, DiscardTweetService discardTweetService) {
+    public TweetController(TweetService tweetService, DiscardTweetService discardTweetService, DiscardedTweetService discardedTweetService) {
         this.tweetService = tweetService;
         this.discardTweetService = discardTweetService;
+        this.discardedTweetService = discardedTweetService;
     }
 
     @GetMapping("/tweet")
@@ -32,6 +36,9 @@ public class TweetController {
     public void publishTweet(@RequestBody PublishTweetCommand publishTweetCommand) {
         this.tweetService.publishTweet(publishTweetCommand.getPublisher(), publishTweetCommand.getTweet());
     }
+
+    @GetMapping("/discarded")
+    public List<DiscardedTweet> listDiscardedTweets() { return this.discardedTweetService.listAllTweets(); }
 
     @PostMapping("/discarded")
     @ResponseStatus(CREATED)

@@ -4,6 +4,7 @@ import com.scmspain.controller.TweetController;
 import com.scmspain.repository.EMDiscardedTweetRepository;
 import com.scmspain.repository.EMTweetRepository;
 import com.scmspain.services.DiscardTweetService;
+import com.scmspain.services.DiscardedTweetService;
 import com.scmspain.services.TweetService;
 import com.scmspain.validators.TweetValidator;
 import org.springframework.boot.actuate.metrics.writer.MetricWriter;
@@ -30,12 +31,17 @@ public class TweetConfiguration {
     }
 
     @Bean
+    public DiscardedTweetService getDiscardedTweetService(EMDiscardedTweetRepository emDiscardedTweetRepository, MetricWriter metricWriter) {
+        return new DiscardedTweetService(emDiscardedTweetRepository, metricWriter);
+    }
+
+    @Bean
     public TweetService getTweetService(EMTweetRepository tweetRepository, MetricWriter metricWriter, TweetValidator tweetValidator) {
         return new TweetService(tweetRepository, metricWriter, tweetValidator);
     }
 
     @Bean
-    public TweetController getTweetConfiguration(TweetService tweetService, DiscardTweetService discardTweetService) {
-        return new TweetController(tweetService, discardTweetService);
+    public TweetController getTweetConfiguration(TweetService tweetService, DiscardTweetService discardTweetService, DiscardedTweetService discardedTweetService) {
+        return new TweetController(tweetService, discardTweetService, discardedTweetService);
     }
 }

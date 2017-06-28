@@ -61,12 +61,16 @@ public class TweetControllerTest {
     }
 
     @Test
-    public void shouldDiscardAPublishedTweet() throws Exception {}
+    public void shouldDiscardAPublishedTweet() throws Exception {
+    }
+
+    @Test
+    public void shouldReturnAllDiscardedTweets() throws Exception {
+    }
 
     private MockHttpServletRequestBuilder newTweet(String publisher, String tweet) {
         return post("/tweet")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(format("{\"publisher\": \"%s\", \"tweet\": \"%s\"}", publisher, tweet));
     }
-
 }
