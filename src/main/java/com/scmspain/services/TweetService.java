@@ -1,68 +1,57 @@
 package com.scmspain.services;
 
-import com.scmspain.entities.Tweet;
-import org.springframework.boot.actuate.metrics.writer.Delta;
-import org.springframework.boot.actuate.metrics.writer.MetricWriter;
-import org.springframework.stereotype.Service;
+import com.scmspain.domain.entities.Tweet;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-@Service
-@Transactional
-public class TweetService {
-    private EntityManager entityManager;
-    private MetricWriter metricWriter;
-
-    public TweetService(EntityManager entityManager, MetricWriter metricWriter) {
-        this.entityManager = entityManager;
-        this.metricWriter = metricWriter;
-    }
+/**
+ * Tweet's service defining all the operations can be done over tweets.
+ *
+ * @author ricardmore
+ */
+public interface TweetService {
 
     /**
-      Push tweet to repository
-      Parameter - publisher - creator of the Tweet
-      Parameter - text - Content of the Tweet
-      Result - recovered Tweet
-    */
-    public void publishTweet(String publisher, String text) {
-        if (publisher != null && publisher.length() > 0 && text != null && text.length() > 0 && text.length() < 140) {
-            Tweet tweet = new Tweet();
-            tweet.setTweet(text);
-            tweet.setPublisher(publisher);
-
-            this.metricWriter.increment(new Delta<Number>("published-tweets", 1));
-            this.entityManager.persist(tweet);
-        } else {
-            throw new IllegalArgumentException("Tweet must not be greater than 140 characters");
-        }
-    }
+     * Push tweet to repository. Saves the tweet to domain level.
+     *
+     * @param publisher publisher.
+     * @param tweet Tweet text beign published.
+     *
+     * @return Tweet once published and stored.
+     */
+    Tweet publishTweet(String publisher, String tweet) throws InvalidArgumentException;
 
     /**
-      Recover tweet from repository
-      Parameter - id - id of the Tweet to retrieve
-      Result - retrieved Tweet
-    */
-    public Tweet getTweet(Long id) {
-      return this.entityManager.find(Tweet.class, id);
-    }
+     * Recover tweet from domain
+     *
+     * @param id id of the Tweet to retrieve
+     * @return retrieved Tweet if the id exist
+     */
+    Optional<Tweet> getTweet(Long id);
 
     /**
-      Recover tweet from repository
-      Parameter - id - id of the Tweet to retrieve
-      Result - retrieved Tweet
-    */
-    public List<Tweet> listAllTweets() {
-        List<Tweet> result = new ArrayList<Tweet>();
-        this.metricWriter.increment(new Delta<Number>("times-queried-tweets", 1));
-        TypedQuery<Long> query = this.entityManager.createQuery("SELECT id FROM Tweet AS tweetId WHERE pre2015MigrationStatus<>99 ORDER BY id DESC", Long.class);
-        List<Long> ids = query.getResultList();
-        for (Long id : ids) {
-            result.add(getTweet(id));
-        }
-        return result;
-    }
+     * Recover all the tweets from the domain, excluding the discarded ones.
+     *
+     * @return Paged list of tweets
+     */
+    Page<Tweet> listAllTweets(Pageable page);
+
+    /**
+     * Mark a tweet as discarded.
+     *
+     * @param tweetId Tweet unique identifier.
+     * @return Tweet after beign discarded or null if the tweet doesn't exist.
+     */
+    Tweet discardTweet(Long tweetId);
+
+    /**
+     * Recover all the discarded tweets from the domain.
+     *
+     * @return Paged list of discarded tweets
+     */
+    Page<Tweet> listDiscardedTweets(Pageable page);
+
 }
