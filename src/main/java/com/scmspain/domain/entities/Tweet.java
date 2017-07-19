@@ -13,6 +13,10 @@ import java.util.List;
  *     <li>Unique id</li>
  *     <li>publisher as String</li>
  *     <li>Tweet's text</li>
+ *     <li>publication date</li>
+ *     <li>discarded indicator</li>
+ *     <li>discarded date</li>
+ *     <li>List of the related {@link TweetElement} extracted form the original text.</li>
  * </ul>
  */
 public class Tweet {

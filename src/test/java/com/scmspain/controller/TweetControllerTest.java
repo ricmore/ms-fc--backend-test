@@ -73,7 +73,13 @@ public class TweetControllerTest {
      */
     @Test
     public void testTweetWithLinks() throws Exception {
-        // Text is longer than 140, but once the links are removed it becomes shorter
+        // Text is longer than 140, but once the links are removed it becomes shorter...
+
+        // Developer (Ricard Moré) comment.
+        // Why was this http://www.schibsted.es/ link originally followed by ), ???
+        // According to the specs: A link is any set of non-whitespace consecutive characters starting with http:// or https:// and finishing with a space.
+        // So according to such specs originally the link was http://www.schibsted.es/),
+        // I've added a space... dunno if this was made on purpose or just a mistake.
         mockMvc.perform(newTweet("Schibsted Spain", "We are Schibsted Spain (look at our home page http://www.schibsted.es/ ), we own Vibbo, InfoJobs, fotocasa, coches.net and milanuncios. Welcome! http://www.schibsted.es/"))
                 .andExpect(status().isCreated());
     }

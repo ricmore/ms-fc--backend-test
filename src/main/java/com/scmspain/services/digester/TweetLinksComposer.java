@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by ricardmore on 04/07/2017.
+ * {@link TweetComposer} for the external links. Mirror for a {@link TweetLinksExtractor}.
+ *
+ * @author ricardmore
  */
 public class TweetLinksComposer implements TweetComposer {
 
@@ -16,6 +18,7 @@ public class TweetLinksComposer implements TweetComposer {
     public void compose(Tweet tweet) {
         if (tweet.isComposable()) {
             String composedText = tweet.getTweet();
+            // We must add the elements from the last to the first, inverse order they were extracted.
             List<TweetElement> elements =
                     tweet.getElements().stream()
                             .filter(

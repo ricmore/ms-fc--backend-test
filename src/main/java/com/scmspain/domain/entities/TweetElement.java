@@ -3,6 +3,8 @@ package com.scmspain.domain.entities;
 import javax.persistence.*;
 
 /**
+ * A tweet element is an element extracted from the original text, as links or emoticon codes.
+ * Saving such external elements in a different table make us easy to analise them and, for instance, disable the prohibited ones; dangerous links for example.
  *
  * @author ricardmore
  */
@@ -25,6 +27,12 @@ public class TweetElement {
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "tweet_id")
     private Tweet tweet;
+
+    private boolean disabled;
+
+    public TweetElement() {
+        this.disabled = false;
+    }
 
     public TweetElementType getType() {
         return type;

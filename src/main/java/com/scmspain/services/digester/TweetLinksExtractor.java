@@ -19,6 +19,7 @@ public class TweetLinksExtractor implements TweetElementExtractor {
         int indexHttp = text.indexOf("http://");
         int indexHttps = text.indexOf("https://");
 
+        // We extract elements from first to last.
         while (indexHttp != -1 || indexHttps != -1) {
             // Flipada. Minimum index after filtering the -1. At least one of the index is > 0, so the optional always has a value.
             int index =
