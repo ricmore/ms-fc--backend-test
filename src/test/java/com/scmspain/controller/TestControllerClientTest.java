@@ -30,13 +30,14 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by ricardmore on 14/07/2017.
+ * Another test for {@link TweetController} but this time using a RestTemplate so similating a final Java client, as we will parse (convert Json to DTOS)
+ * so test also the converters and DTO's.
+ *
+ * @author ricardmore
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {TestConfiguration.class})
 @EnableSpringDataWebSupport
-//@WebMvcTest(controllers = {TweetController.class})
-//@Import(com.scmspain.configuration.TestConfiguration.class)
 public class TestControllerClientTest {
 
     @Autowired
@@ -50,10 +51,6 @@ public class TestControllerClientTest {
 
     @MockBean
     private TweetService tweetService;
-//
-//    @MockBean
-//    private TweetRepository tweetRepository;
-
 
     @InjectMocks
     private TweetController tweetController;
@@ -65,6 +62,15 @@ public class TestControllerClientTest {
         when(this.tweetService.listAllTweets(any(Pageable.class))).thenReturn(this.testPage());
     }
 
+    /**
+     * We ask for all the tweets after mocking the {@link TweetService} to always return a unique tweet. We validate:<ul>
+     *     <li>http status is OK</li>
+     *     <li>Tweets list size is 1</li>
+     *     <li>First tweet publisher is Groucho Marx</li>
+     * </ul>
+     *
+     * @throws Exception
+     */
     @Test
     public void testFirstPage() throws Exception {
         HttpHeaders header = new HttpHeaders();
@@ -82,7 +88,7 @@ public class TestControllerClientTest {
     }
 
     private Page<Tweet> testPage() {
-        return new PageImpl<Tweet>(Arrays.asList(this.testTweet()));
+        return new PageImpl<>(Arrays.asList(this.testTweet()));
     }
 
     private Tweet testTweet() {
