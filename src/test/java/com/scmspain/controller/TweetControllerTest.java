@@ -125,6 +125,7 @@ public class TweetControllerTest {
         mockMvc.perform(newTweet("Yo", "How are you?"))
                 .andExpect(status().isCreated());
 
+        // As the database was empty we assume the id for the only tweet is 1.
         mockMvc.perform(discardTweet(1l))
                 .andExpect(status().isOk());
     }

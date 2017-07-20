@@ -11,6 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 // TODO this clas must be in a external artifact so that could be reused by any Java client.
 public final class TweetDTO {
 
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("publisher")
     private String publisher;
 
@@ -18,9 +21,14 @@ public final class TweetDTO {
     private String tweet;
 
     @JsonCreator
-    public TweetDTO(@JsonProperty("publisher") String publisher, @JsonProperty("tweet") String tweet) {
+    public TweetDTO(@JsonProperty("id") Long id, @JsonProperty("publisher") String publisher, @JsonProperty("tweet") String tweet) {
+        this.id = id;
         this.publisher = publisher;
         this.tweet = tweet;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getPublisher() {

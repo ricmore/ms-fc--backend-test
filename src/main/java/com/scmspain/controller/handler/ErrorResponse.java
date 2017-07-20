@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
- * Holds erro code and message.
+ * Holds error code and message.
  *
  * @author ricardmore
  */

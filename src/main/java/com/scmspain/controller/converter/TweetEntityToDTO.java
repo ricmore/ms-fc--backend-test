@@ -15,6 +15,6 @@ public class TweetEntityToDTO implements Converter<Tweet, TweetDTO> {
 
     @Override
     public TweetDTO convert(Tweet source) {
-        return new TweetDTO(source.getPublisher(), source.getTweet());
+        return new TweetDTO(source.getId(), source.getPublisher(), source.getTweet());
     }
 }

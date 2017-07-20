@@ -8,7 +8,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
- * Generic rest exception handler. COnverts Java exception to Json ErrorResponses.
+ * Generic rest exception handler. Converts Java exception to Json ErrorResponses.
  *
  * @author ricardmore
  */

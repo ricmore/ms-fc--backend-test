@@ -65,4 +65,12 @@ public class TweetElement {
     public void setTweet(Tweet tweet) {
         this.tweet = tweet;
     }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 }
